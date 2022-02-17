@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import static frc.robot.Constants.*;
 
@@ -23,8 +23,8 @@ public class RobotContainer {
   private final SwerveShaninigans m_drivetrainSubsystem = new SwerveShaninigans();
   
   private final AutoDrive m_autoCommand = new AutoDrive(m_drivetrainSubsystem);
-
-  private final Joystick m_controller = new Joystick(m_controllerPortNum);
+  
+  private final XboxController m_controller = new XboxController(m_controllerPortNum);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -35,9 +35,9 @@ public class RobotContainer {
     // Right stick X axis -> rotation
     m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
             m_drivetrainSubsystem,
-            () -> -(m_controller.getY() * SwerveShaninigans.MAX_VELOCITY_METERS_PER_SECOND),
-            () -> -(m_controller.getX() * SwerveShaninigans.MAX_VELOCITY_METERS_PER_SECOND),
-            () -> -(m_controller.getTwist() * SwerveShaninigans.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND)
+            () -> -(m_controller.getLeftY() * SwerveShaninigans.MAX_VELOCITY_METERS_PER_SECOND),
+            () -> -(m_controller.getLeftX() * SwerveShaninigans.MAX_VELOCITY_METERS_PER_SECOND),
+            () -> -(m_controller.getRightX() * SwerveShaninigans.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND)
     ));
     
     
