@@ -5,11 +5,12 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.XboxController;
 import static frc.robot.Constants.*;
 
 /**
@@ -24,7 +25,8 @@ public class RobotContainer {
   
   private final AutoDrive m_autoCommand = new AutoDrive(m_drivetrainSubsystem);
   
-  private final XboxController m_controller = new XboxController(m_controllerPortNum);
+  private final Joystick m_controller = new Joystick(m_controllerPortNum);
+  private final ZeroGyro zeroGyro = new ZeroGyro(m_drivetrainSubsystem);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -35,14 +37,15 @@ public class RobotContainer {
     // Right stick X axis -> rotation
     m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
             m_drivetrainSubsystem,
-            () -> -(m_controller.getLeftY() * SwerveShaninigans.MAX_VELOCITY_METERS_PER_SECOND),
-            () -> -(m_controller.getLeftX() * SwerveShaninigans.MAX_VELOCITY_METERS_PER_SECOND),
-            () -> -(m_controller.getRightX() * SwerveShaninigans.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND)
+            () -> -(smoothLogisticInput(m_controller.getX(), true) * m_controller.getThrottle() * SwerveShaninigans.MAX_VELOCITY_METERS_PER_SECOND),
+            () -> (smoothLogisticInput(m_controller.getY(), true) * m_controller.getThrottle() * SwerveShaninigans.MAX_VELOCITY_METERS_PER_SECOND),
+            () -> -(smoothLogisticInput(m_controller.getTwist(), false) * m_controller.getThrottle() * SwerveShaninigans.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND)
     ));
     
     
     // Configure the button bindings
     configureButtonBindings();
+
   }
 
   /**
@@ -52,10 +55,9 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // Back button zeros the gyroscope
-    JoystickButton m_1 = new JoystickButton(m_controller, 7);
+    JoystickButton m_3 = new JoystickButton(m_controller, 3);
 
-    m_1.whenPressed(m_drivetrainSubsystem::zeroGyroscope);
+    m_3.whenPressed(zeroGyro);
   }
 
   /**
@@ -66,5 +68,24 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return m_autoCommand;
+  }
+
+  public double smoothLogisticInput(double input, Boolean drive) {
+    if(drive){
+      if (input > 0.1) {
+          return 1/(1 + Math.exp(-10*Math.abs(input)+5));
+      } else if (input < -0.1) {
+          return -(1/(1 + Math.exp(-10*Math.abs(input)+5)));
+      } 
+      return 0;
+    }
+    else{
+      if (input > 0.4) {
+        return 1/(1 + Math.exp(-15*Math.abs(input)+10));
+    } else if (input < -0.4) {
+        return -(1/(1 + Math.exp(-15*Math.abs(input)+10)));
+    } 
+    return 0;
+    }
   }
 }

@@ -43,7 +43,7 @@ public class SwerveShaninigans extends SubsystemBase {
    */
   public static final double MAX_VELOCITY_METERS_PER_SECOND = 5880.0 / 60.0 *
           SdsModuleConfigurations.MK4_L3.getDriveReduction() *
-          SdsModuleConfigurations.MK4_L3.getWheelDiameter() * Math.PI;
+          SdsModuleConfigurations.MK4_L3.getWheelDiameter() * Math.PI  *speedReductionConst;
   /**
    * The maximum angular velocity of the robot in radians per second.
    * <p>
@@ -176,9 +176,9 @@ public class SwerveShaninigans extends SubsystemBase {
      // We will only get valid fused headings if the magnetometer is calibrated
      return Rotation2d.fromDegrees(m_navx.getFusedHeading());
    }
-//
-//    // We have to invert the angle of the NavX so that rotating the robot counter-clockwise makes the angle increase.
-   return Rotation2d.fromDegrees(360.0 - m_navx.getYaw());
+
+   // We have to invert the angle of the NavX so that rotating the robot counter-clockwise makes the angle increase.
+   return Rotation2d.fromDegrees(360-m_navx.getYaw());
   }
 
   public void drive(ChassisSpeeds chassisSpeeds) {
