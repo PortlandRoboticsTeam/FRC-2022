@@ -37,9 +37,9 @@ public class RobotContainer {
     // Right stick X axis -> rotation
     m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
             m_drivetrainSubsystem,
-            () -> -(smoothLogisticInput(m_controller.getX(), true) * m_controller.getThrottle() * SwerveShaninigans.MAX_VELOCITY_METERS_PER_SECOND),
-            () -> (smoothLogisticInput(m_controller.getY(), true) * m_controller.getThrottle() * SwerveShaninigans.MAX_VELOCITY_METERS_PER_SECOND),
-            () -> -(smoothLogisticInput(m_controller.getTwist(), false) * m_controller.getThrottle() * SwerveShaninigans.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND)
+            () -> -(smoothLogisticInput(m_controller.getX(), true) * m_controller.getThrottle() * SwerveShaninigans.MAX_VELOCITY_METERS_PER_SECOND * speedReductionConst),
+            () -> (smoothLogisticInput(m_controller.getY(), true) * m_controller.getThrottle() * SwerveShaninigans.MAX_VELOCITY_METERS_PER_SECOND * speedReductionConst),
+            () -> -(smoothLogisticInput(m_controller.getTwist(), false) * m_controller.getThrottle() * SwerveShaninigans.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * speedReductionConst)
     ));
     
     

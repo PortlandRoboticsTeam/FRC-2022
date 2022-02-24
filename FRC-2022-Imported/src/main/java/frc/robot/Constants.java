@@ -54,6 +54,9 @@ public final class Constants {
     //Controller Port Nums
     public static final int m_controllerPortNum = 0;
 
-    public static final double speedReductionConst = 0.25;
+
+    //random things
+    public static final double speedReductionConst = 0.40;
+    public static final Boolean driveRelativeToField = true;
     
 }
