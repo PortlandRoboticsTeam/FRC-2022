@@ -178,7 +178,7 @@ public class SwerveShaninigans extends SubsystemBase {
     // return Rotation2d.fromDegrees(m_pigeon.getFusedHeading());
 
     // FIXME Uncomment if you are using a NavX
-        return odometry.getPoseMeters().getRotation().times(-1.0).minus(new Rotation2d(Math.PI/2));
+        return odometry.getPoseMeters().getRotation().times(-1.0).minus(new Rotation2d(Math.PI * 3/2));
 
   }
 

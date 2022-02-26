@@ -11,6 +11,7 @@ import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController;
+
 import static frc.robot.Constants.*;
 
 /**
@@ -22,11 +23,20 @@ import static frc.robot.Constants.*;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SwerveShaninigans m_drivetrainSubsystem = new SwerveShaninigans();
+  private final BallGun ballGun = new BallGun();
   
   private final AutoDrive m_autoCommand = new AutoDrive(m_drivetrainSubsystem);
+  private final ZeroGyro zeroGyro = new ZeroGyro(m_drivetrainSubsystem);
+  private final ShootBall shootBall = new ShootBall(ballGun, launchSpeed);
+  private final ShootBallStop shootBallStop = new ShootBallStop(ballGun);
+  private final SpinHigherConveyor spinHigherConveyor = new SpinHigherConveyor(ballGun, higherConveyorSpeed);
+  private final SpinLowerConveyor spinLowerConveyor = new SpinLowerConveyor(ballGun, lowerConveyorSpeed);
+  private final StopHigherConveyor stopHigherConveyor = new StopHigherConveyor(ballGun);
+  private final StopLowerConveyor stopLowerConveyor = new StopLowerConveyor(ballGun);
+  private final GetDistance getDistance = new GetDistance(ballGun);
+  private final ShootTwoBalls shootTwoBalls = new ShootTwoBalls(ballGun, launchSpeed, higherConveyorSpeed, lowerConveyorSpeed);
   
   private final Joystick m_controller = new Joystick(m_controllerPortNum);
-  private final ZeroGyro zeroGyro = new ZeroGyro(m_drivetrainSubsystem);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -42,7 +52,6 @@ public class RobotContainer {
             () -> -(smoothLogisticInput(m_controller.getTwist(), false) * m_controller.getThrottle() * SwerveShaninigans.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * speedReductionConst)
     ));
     
-    
     // Configure the button bindings
     configureButtonBindings();
 
@@ -56,8 +65,21 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     JoystickButton m_3 = new JoystickButton(m_controller, 3);
+    JoystickButton m_4 = new JoystickButton(m_controller, 4);
+    JoystickButton m_6 = new JoystickButton(m_controller, 6);
+    JoystickButton m_1 = new JoystickButton(m_controller, 1);
+    JoystickButton m_11 = new JoystickButton(m_controller, 11);
+    JoystickButton m_5 = new JoystickButton(m_controller, 5);
 
+    m_5.whenPressed(shootTwoBalls);
     m_3.whenPressed(zeroGyro);
+    m_4.whenPressed(spinLowerConveyor);
+    m_6.whenPressed(spinHigherConveyor);
+    m_1.whenPressed(shootBall);
+    m_4.whenReleased(stopLowerConveyor);
+    m_6.whenReleased(stopHigherConveyor);
+    m_1.whenReleased(shootBallStop);
+    m_11.whenPressed(getDistance);
   }
 
   /**

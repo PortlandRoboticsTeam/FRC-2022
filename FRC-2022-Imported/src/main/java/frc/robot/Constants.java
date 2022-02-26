@@ -14,6 +14,26 @@ package frc.robot;
  */
 public final class Constants {
     
+    //Controller Port Nums
+    public static final int m_controllerPortNum = 0;
+
+    //Motor Port Nums
+    public static final int lowerConveyorMotorPortNum = 6;
+    public static final int higherConveyorMotorPortNum = 7;
+    public static final int ballLaunchingMotorPortNum = 8;
+
+    //Other Ports
+    public static final int ultrasonicPortNum = 0;
+
+    //random things
+    public static final double speedReductionConst = 0.40;
+    public static final Boolean driveRelativeToField = true;
+    public static final double launchSpeed = 0.4;
+    public static final double lowerConveyorSpeed = 0.4;
+    public static final double higherConveyorSpeed = 0.6;
+
+
+    //All code below is swerve drive constants.
     /**
      * The left-to-right distance between the drivetrain wheels
      *
@@ -48,15 +68,5 @@ public final class Constants {
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 8; // FIXME Set back right steer motor ID
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 4; // FIXME Set back right steer encoder ID
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(256.113); // FIXME Measure and set back right steer offset
-
-
-
-    //Controller Port Nums
-    public static final int m_controllerPortNum = 0;
-
-
-    //random things
-    public static final double speedReductionConst = 0.40;
-    public static final Boolean driveRelativeToField = true;
     
 }
