@@ -11,7 +11,6 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import static frc.robot.Constants.*;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 public class BallGun extends SubsystemBase {
     VictorSPX lowerConveyorMotor = new VictorSPX(lowerConveyorMotorPortNum);
@@ -23,7 +22,7 @@ public class BallGun extends SubsystemBase {
     public BallGun(){}
 
     public double getDistance(){
-        double distance = distanceSensor.getVoltage() * 10.0 / 1024.0;
+        double distance = 0.039 * distanceSensor.getVoltage()/1024.0;
         return distance;
     }
     public void spinLowerConveyor(double speed){

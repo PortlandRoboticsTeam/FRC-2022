@@ -11,8 +11,12 @@ import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 import static frc.robot.Constants.*;
+
+import java.util.Map;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -37,6 +41,7 @@ public class RobotContainer {
   private final ShootTwoBalls shootTwoBalls = new ShootTwoBalls(ballGun, launchSpeed, higherConveyorSpeed, lowerConveyorSpeed);
   
   private final Joystick m_controller = new Joystick(m_controllerPortNum);
+  private double distance;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -54,7 +59,11 @@ public class RobotContainer {
     
     // Configure the button bindings
     configureButtonBindings();
-
+    distance = ballGun.getDistance();
+    Shuffleboard.getTab("Display").addBoolean("In Firing Distance", () -> (distance>24 && distance<36));
+    if(distance<24) Shuffleboard.getTab("Display").addNumber("Distance Needed to Move", ()-> distance-24).withWidget(BuiltInWidgets.kNumberBar).withProperties(Map.of("min", -24, "max", 24));
+    else if(distance>36) Shuffleboard.getTab("Display").addNumber("Distance Needed to Move", ()-> distance-36).withWidget(BuiltInWidgets.kNumberBar).withProperties(Map.of("min", -24, "max", 24));
+    else Shuffleboard.getTab("Display").addString("Distance Needed to Move", ()-> "No Object in Range!").withWidget(BuiltInWidgets.kTextView);
   }
 
   /**
