@@ -31,6 +31,8 @@ public final class Constants {
     public static final double launchSpeed = 0.4;
     public static final double lowerConveyorSpeed = 0.4;
     public static final double higherConveyorSpeed = 0.6;
+    public static final double minShootDistance = 100;
+    public static final double maxShootDistance = 124;
 
 
     //All code below is swerve drive constants.
