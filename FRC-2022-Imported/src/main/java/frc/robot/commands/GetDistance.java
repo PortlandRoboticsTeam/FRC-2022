@@ -5,13 +5,17 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.BallGun;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+
+import java.util.function.DoubleSupplier;
+
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
 public class GetDistance extends CommandBase {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final BallGun ballGun;
+    double distance;
 
     /**
      * Creates a new ExampleCommand.
@@ -27,7 +31,33 @@ public class GetDistance extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize(){
-      Shuffleboard.getTab("SmartDashboard").add("Distance", ballGun.getDistance());
+      this.distance = ballGun.getDistance();
+      double distance;
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder){
+      builder.setSmartDashboardType("Distance Display");
+      builder.addBooleanProperty("In Firing Distance", this::getIfInRange, null);
+      builder.addDoubleProperty("Distance needed to move", this::getDistanceDifference, null);
+      builder.addDoubleProperty("Read Distance", getReadDistance(), null);
+    }
+
+    private DoubleSupplier getReadDistance(){
+      return ()-> ballGun.getDistance();
+    }
+
+    private boolean getIfInRange() {
+      distance = ballGun.getDistance();
+      return distance>=24 && distance<=36;
+    }
+
+    private double getDistanceDifference(){
+      distance = ballGun.getDistance();
+      if(distance<24) return distance-24;
+      else if(distance>36) return distance-36;
+      else if(distance<=36 && distance>=24) return 0;
+      else return 0;
     }
 
     // Called every time the scheduler runs while the command is scheduled.

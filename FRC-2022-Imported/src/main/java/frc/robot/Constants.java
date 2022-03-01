@@ -28,7 +28,7 @@ public final class Constants {
     //random things
     public static final double speedReductionConst = 0.40;
     public static final Boolean driveRelativeToField = true;
-    public static final double launchSpeed = 0.4;
+    public static final double launchSpeed = 0.8;
     public static final double lowerConveyorSpeed = 0.4;
     public static final double higherConveyorSpeed = 0.6;
 
