@@ -11,12 +11,10 @@ import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static frc.robot.Constants.*;
 
-import java.util.Map;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -37,11 +35,10 @@ public class RobotContainer {
   private final SpinLowerConveyor spinLowerConveyor = new SpinLowerConveyor(ballGun, lowerConveyorSpeed);
   private final StopHigherConveyor stopHigherConveyor = new StopHigherConveyor(ballGun);
   private final StopLowerConveyor stopLowerConveyor = new StopLowerConveyor(ballGun);
-  private final GetDistance getDistance = new GetDistance(ballGun);
   private final ShootTwoBalls shootTwoBalls = new ShootTwoBalls(ballGun, launchSpeed, higherConveyorSpeed, lowerConveyorSpeed);
+  private final GetDistance getDistance = new GetDistance(ballGun);
   
   private final Joystick m_controller = new Joystick(m_controllerPortNum);
-  private double distance;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -59,11 +56,7 @@ public class RobotContainer {
     
     // Configure the button bindings
     configureButtonBindings();
-    distance = ballGun.getDistance();
-    Shuffleboard.getTab("Display").addBoolean("In Firing Distance", () -> (distance>24 && distance<36));
-    if(distance<24) Shuffleboard.getTab("Display").addNumber("Distance Needed to Move", ()-> distance-24).withWidget(BuiltInWidgets.kNumberBar).withProperties(Map.of("min", -24, "max", 24));
-    else if(distance>36) Shuffleboard.getTab("Display").addNumber("Distance Needed to Move", ()-> distance-36).withWidget(BuiltInWidgets.kNumberBar).withProperties(Map.of("min", -24, "max", 24));
-    else Shuffleboard.getTab("Display").addString("Distance Needed to Move", ()-> "No Object in Range!").withWidget(BuiltInWidgets.kTextView);
+    SmartDashboard.putData(getDistance);
   }
 
   /**
@@ -77,7 +70,6 @@ public class RobotContainer {
     JoystickButton m_4 = new JoystickButton(m_controller, 4);
     JoystickButton m_6 = new JoystickButton(m_controller, 6);
     JoystickButton m_1 = new JoystickButton(m_controller, 1);
-    JoystickButton m_11 = new JoystickButton(m_controller, 11);
     JoystickButton m_5 = new JoystickButton(m_controller, 5);
 
     m_5.whenPressed(shootTwoBalls);
@@ -88,7 +80,6 @@ public class RobotContainer {
     m_4.whenReleased(stopLowerConveyor);
     m_6.whenReleased(stopHigherConveyor);
     m_1.whenReleased(shootBallStop);
-    m_11.whenPressed(getDistance);
   }
 
   /**

@@ -22,7 +22,7 @@ public class BallGun extends SubsystemBase {
     public BallGun(){}
 
     public double getDistance(){
-        double distance = 0.039 * distanceSensor.getVoltage()/1024.0;
+        double distance = 39.0 * distanceSensor.getVoltage()/1.024;
         return distance;
     }
     public void spinLowerConveyor(double speed){
