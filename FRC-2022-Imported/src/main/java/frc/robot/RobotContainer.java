@@ -27,7 +27,6 @@ public class RobotContainer {
   private final SwerveShaninigans m_drivetrainSubsystem = new SwerveShaninigans();
   private final BallGun ballGun = new BallGun();
   
-  private final AutoDrive m_autoCommand = new AutoDrive(m_drivetrainSubsystem);
   private final ZeroGyro zeroGyro = new ZeroGyro(m_drivetrainSubsystem);
   private final ShootBall shootBall = new ShootBall(ballGun, launchSpeed);
   private final ShootBallStop shootBallStop = new ShootBallStop(ballGun);
@@ -37,6 +36,7 @@ public class RobotContainer {
   private final StopLowerConveyor stopLowerConveyor = new StopLowerConveyor(ballGun);
   private final ShootTwoBalls shootTwoBalls = new ShootTwoBalls(ballGun, launchSpeed, higherConveyorSpeed, lowerConveyorSpeed);
   private final GetDistance getDistance = new GetDistance(ballGun);
+  private final AutoMoveShootTwo autoMoveShootTwo = new AutoMoveShootTwo(m_drivetrainSubsystem, ballGun);
   
   private final Joystick m_controller = new Joystick(m_controllerPortNum);
 
@@ -89,7 +89,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return autoMoveShootTwo;
   }
 
   public double smoothLogisticInput(double input, Boolean drive) {

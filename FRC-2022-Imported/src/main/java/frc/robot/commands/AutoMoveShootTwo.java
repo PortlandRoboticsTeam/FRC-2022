@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.BallGun;
 import frc.robot.subsystems.SwerveShaninigans;
@@ -18,11 +19,12 @@ public class AutoMoveShootTwo extends CommandBase{
         this.swerve = swerve;
         this.gun = gun;
         addRequirements(swerve, gun);
-        shootTwo = new ShootTwoBalls(this.gun, launchSpeed, lowerConveyorSpeed, higherConveyorSpeed);
+        shootTwo = new ShootTwoBalls(this.gun, 0.4, lowerConveyorSpeed, higherConveyorSpeed);
     }
 
     @Override
     public void initialize(){
+        System.out.println("Initialized");
         timer.reset();
     }
 
@@ -30,15 +32,19 @@ public class AutoMoveShootTwo extends CommandBase{
     public void execute(){
         distance = gun.getDistance();
         if(timer.get()>6){
-            swerve.setDefaultCommand(new DefaultDriveCommand(swerve, ()-> 0, ()-> -0.75, ()-> 0));
+            System.out.println("timer greater than 6");
+            swerve.drive(new ChassisSpeeds(-1, 0, 0));
         }
         else if(distance<minShootDistance){
-            swerve.setDefaultCommand(new DefaultDriveCommand(swerve, ()-> 0, ()-> -0.75, ()-> 0));
+            System.out.println("Distance less that min");
+            swerve.drive(new ChassisSpeeds(-1, 0, 0));
         }
         else if(distance>maxShootDistance){
-            swerve.setDefaultCommand(new DefaultDriveCommand(swerve, ()-> 0, ()-> 0.5, ()-> 0));
+            System.out.println("distance greater than max");
+            swerve.drive(new ChassisSpeeds(1, 0, 0));
         }
         else if(distance>=minShootDistance && distance<=maxShootDistance && !hasShot){
+            System.out.println("is shooting");
             shootTwo.schedule();
             timer.reset();
             timer.start();
@@ -48,7 +54,7 @@ public class AutoMoveShootTwo extends CommandBase{
 
     @Override
     public boolean isFinished(){
-        if(hasShot && timer.get()>7) return true;
+        if(hasShot && timer.get()>14) return true;
         else return false;
     }
 
@@ -56,6 +62,7 @@ public class AutoMoveShootTwo extends CommandBase{
     public void end(boolean interrupted){
         timer.stop();
         timer.reset();
-        swerve.setDefaultCommand(new DefaultDriveCommand(swerve, ()-> 0, ()-> 0, ()-> 0));
+        swerve.drive(new ChassisSpeeds(0, 0, 0));
+        System.out.println("El fin");
     }
 }
