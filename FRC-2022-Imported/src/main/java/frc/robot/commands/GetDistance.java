@@ -33,7 +33,6 @@ public class GetDistance extends CommandBase {
     @Override
     public void initialize(){
       this.distance = ballGun.getDistance();
-      double distance;
     }
 
     @Override

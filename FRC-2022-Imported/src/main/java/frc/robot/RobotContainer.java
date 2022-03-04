@@ -26,6 +26,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SwerveShaninigans m_drivetrainSubsystem = new SwerveShaninigans();
   private final BallGun ballGun = new BallGun();
+  private final FunnyMonkeyMachine funnyMonkeyMachine = new FunnyMonkeyMachine();
   
   private final ZeroGyro zeroGyro = new ZeroGyro(m_drivetrainSubsystem);
   private final ShootBall shootBall = new ShootBall(ballGun, launchSpeed);
@@ -37,6 +38,8 @@ public class RobotContainer {
   private final ShootTwoBalls shootTwoBalls = new ShootTwoBalls(ballGun, launchSpeed, higherConveyorSpeed, lowerConveyorSpeed);
   private final GetDistance getDistance = new GetDistance(ballGun);
   private final AutoMoveShootTwo autoMoveShootTwo = new AutoMoveShootTwo(m_drivetrainSubsystem, ballGun);
+  private final ExtendArms extendArms = new ExtendArms(funnyMonkeyMachine);
+  private final RetractArms retractArms = new RetractArms(funnyMonkeyMachine);
   
   private final Joystick m_controller = new Joystick(m_controllerPortNum);
 
@@ -71,6 +74,8 @@ public class RobotContainer {
     JoystickButton m_6 = new JoystickButton(m_controller, 6);
     JoystickButton m_1 = new JoystickButton(m_controller, 1);
     JoystickButton m_5 = new JoystickButton(m_controller, 5);
+    JoystickButton m_7 = new JoystickButton(m_controller, 7);
+    JoystickButton m_8 = new JoystickButton(m_controller, 8);
 
     m_5.whenPressed(shootTwoBalls);
     m_3.whenPressed(zeroGyro);
@@ -80,6 +85,8 @@ public class RobotContainer {
     m_4.whenReleased(stopLowerConveyor);
     m_6.whenReleased(stopHigherConveyor);
     m_1.whenReleased(shootBallStop);
+    m_7.whileHeld(extendArms);
+    m_8.whenInactive(retractArms);
   }
 
   /**
