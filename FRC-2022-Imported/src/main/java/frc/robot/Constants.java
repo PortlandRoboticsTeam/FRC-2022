@@ -18,11 +18,11 @@ public final class Constants {
     public static final int m_controllerPortNum = 0;
 
     //Motor Port Nums
-    public static final int lowerConveyorMotorPortNum = 6;
+    public static final int lowerConveyorMotorPortNum = 9;
     public static final int higherConveyorMotorPortNum = 7;
-    public static final int ballLaunchingMotorPortNum = 8;
-    public static final int rightArmMotorPortNum = 9;
-    public static final int leftArmMotorPortNum = 10;
+    public static final int ballLaunchingMotorPortNum = 5;
+    public static final int rightArmMotorPortNum = 6;
+    public static final int leftArmMotorPortNum = 8;
 
     //Other Ports
     public static final int ultrasonicPortNum = 0;
