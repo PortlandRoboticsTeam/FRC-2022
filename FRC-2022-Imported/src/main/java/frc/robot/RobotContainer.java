@@ -27,8 +27,11 @@ public class RobotContainer {
   private final SwerveShaninigans m_drivetrainSubsystem = new SwerveShaninigans();
   private final BallGun ballGun = new BallGun();
   private final FunnyMonkeyMachine funnyMonkeyMachine = new FunnyMonkeyMachine();
+
+  private final AutoMoveShootTwo autoMoveShootTwo = new AutoMoveShootTwo(m_drivetrainSubsystem, ballGun);
   
   private final ZeroGyro zeroGyro = new ZeroGyro(m_drivetrainSubsystem);
+  
   private final ShootBall shootBall = new ShootBall(ballGun, launchSpeed);
   private final ShootBallStop shootBallStop = new ShootBallStop(ballGun);
   private final SpinHigherConveyor spinHigherConveyor = new SpinHigherConveyor(ballGun, higherConveyorSpeed);
@@ -36,10 +39,13 @@ public class RobotContainer {
   private final StopHigherConveyor stopHigherConveyor = new StopHigherConveyor(ballGun);
   private final StopLowerConveyor stopLowerConveyor = new StopLowerConveyor(ballGun);
   private final ShootTwoBalls shootTwoBalls = new ShootTwoBalls(ballGun, launchSpeed, higherConveyorSpeed, lowerConveyorSpeed);
-  private final GetDistance getDistance = new GetDistance(ballGun);
-  private final AutoMoveShootTwo autoMoveShootTwo = new AutoMoveShootTwo(m_drivetrainSubsystem, ballGun);
+  private final SendDistance sendDistance = new SendDistance(ballGun);
+
   private final ExtendArms extendArms = new ExtendArms(funnyMonkeyMachine);
   private final RetractArms retractArms = new RetractArms(funnyMonkeyMachine);
+  private final CloseArms closeArms = new CloseArms(funnyMonkeyMachine);
+  private final OpenArms openArms = new OpenArms(funnyMonkeyMachine);
+  private final SendPneumatics sendPneumatics = new SendPneumatics(funnyMonkeyMachine);
   
   private final Joystick m_controller = new Joystick(m_controllerPortNum);
 
@@ -59,7 +65,8 @@ public class RobotContainer {
     
     // Configure the button bindings
     configureButtonBindings();
-    SmartDashboard.putData(getDistance);
+    SmartDashboard.putData(sendDistance);
+    SmartDashboard.putData(sendPneumatics);
   }
 
   /**
@@ -76,6 +83,8 @@ public class RobotContainer {
     JoystickButton m_5 = new JoystickButton(m_controller, 5);
     JoystickButton m_7 = new JoystickButton(m_controller, 7);
     JoystickButton m_8 = new JoystickButton(m_controller, 8);
+    JoystickButton m_9 = new JoystickButton(m_controller, 9);
+    JoystickButton m_10 = new JoystickButton(m_controller, 10);
 
     m_5.whenPressed(shootTwoBalls);
     m_3.whenPressed(zeroGyro);
@@ -86,7 +95,9 @@ public class RobotContainer {
     m_6.whenReleased(stopHigherConveyor);
     m_1.whenReleased(shootBallStop);
     m_7.whileHeld(extendArms);
-    m_8.whenInactive(retractArms);
+    m_8.whileHeld(retractArms);
+    m_9.whenPressed(openArms);
+    m_10.whenPressed(closeArms);
   }
 
   /**
