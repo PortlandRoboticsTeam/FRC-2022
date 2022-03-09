@@ -36,11 +36,11 @@ public class AutoMoveShootTwo extends CommandBase{
             swerve.drive(new ChassisSpeeds(-1, 0, 0));
         }
         else if(distance<minShootDistance){
-            System.out.println("Distance less that min");
+            System.out.println(distance + " " + minShootDistance);
             swerve.drive(new ChassisSpeeds(-1, 0, 0));
         }
         else if(distance>maxShootDistance){
-            System.out.println("distance greater than max");
+            System.out.println(distance + " " + maxShootDistance);
             swerve.drive(new ChassisSpeeds(1, 0, 0));
         }
         else if(distance>=minShootDistance && distance<=maxShootDistance && !hasShot){

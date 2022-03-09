@@ -17,8 +17,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class FunnyMonkeyMachine extends SubsystemBase {
   private VictorSPX rightArmMotor = new VictorSPX(rightArmMotorPortNum);
   private VictorSPX leftArmMotor = new VictorSPX(leftArmMotorPortNum);
-  private Compressor compressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
-  private DoubleSolenoid doubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
+  private Compressor compressor = new Compressor(pcmPortNum, PneumaticsModuleType.CTREPCM);
+  private DoubleSolenoid doubleSolenoid = new DoubleSolenoid(pcmPortNum, PneumaticsModuleType.CTREPCM, 0, 1);
   
   /** Creates a new ExampleSubsystem. */
   public FunnyMonkeyMachine() {
@@ -32,6 +32,10 @@ public class FunnyMonkeyMachine extends SubsystemBase {
 
   public void solenoidReverse(){
     doubleSolenoid.set(Value.kReverse);
+  }
+
+  public void solenoidOff(){
+    doubleSolenoid.set(Value.kOff);
   }
 
   public void rotateArmMotors(double speed){
