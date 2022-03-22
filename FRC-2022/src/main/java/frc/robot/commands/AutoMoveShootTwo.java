@@ -11,19 +11,20 @@ public class AutoMoveShootTwo extends CommandBase{
     private final SwerveShaninigans swerve;
     private final BallGun gun;
     private final Timer timer = new Timer();
-    private final ShootTwoBalls shootTwo;
     private double distance;
     private boolean hasShot = false;
+    private boolean outOfRange = true;
     
     public AutoMoveShootTwo(SwerveShaninigans swerve, BallGun gun){
         this.swerve = swerve;
         this.gun = gun;
         addRequirements(swerve, gun);
-        shootTwo = new ShootTwoBalls(this.gun, 0.4, lowerConveyorSpeed, higherConveyorSpeed);
     }
+    //You get 15sec max
 
     @Override
     public void initialize(){
+        gun.spinLowerConveyor(1);
         System.out.println("Initialized");
         timer.reset();
     }
@@ -31,30 +32,33 @@ public class AutoMoveShootTwo extends CommandBase{
     @Override
     public void execute(){
         distance = gun.getDistance();
-        if(timer.get()>6){
-            System.out.println("timer greater than 6");
-            swerve.drive(new ChassisSpeeds(-1, 0, 0));
+
+        if(outOfRange){
+            if(distance<minShootDistance){
+                swerve.drive(new ChassisSpeeds(-.8,0,0));
+                System.out.println("too short" + distance);
+            }
+            else{
+                System.out.print("ahhhhhhhhhh");
+                outOfRange = false;
+                swerve.drive(new ChassisSpeeds(0,0,0));
+            }
         }
-        else if(distance<minShootDistance){
-            System.out.println(distance + " " + minShootDistance);
-            swerve.drive(new ChassisSpeeds(-1, 0, 0));
-        }
-        else if(distance>maxShootDistance){
-            System.out.println(distance + " " + maxShootDistance);
-            swerve.drive(new ChassisSpeeds(1, 0, 0));
-        }
-        else if(distance>=minShootDistance && distance<=maxShootDistance && !hasShot){
-            System.out.println("is shooting");
-            shootTwo.schedule();
-            timer.reset();
+        else{
             timer.start();
-            hasShot = true;
+            gun.spinBallLauncher(launchSpeed);
+            if(timer.get()>5){
+                hasShot = true;
+            }
+            else if(timer.get()>2){
+                gun.spingHigherConveyor(1);
+            }
         }
     }
 
     @Override
     public boolean isFinished(){
-        if(hasShot && timer.get()>14) return true;
+        if(hasShot) return true;
         else return false;
     }
 
@@ -63,6 +67,7 @@ public class AutoMoveShootTwo extends CommandBase{
         timer.stop();
         timer.reset();
         swerve.drive(new ChassisSpeeds(0, 0, 0));
+        gun.stopMotors();
         System.out.println("El fin");
     }
 }

@@ -20,9 +20,9 @@ public final class Constants {
     //Motor Port Nums
     public static final int lowerConveyorMotorPortNum = 9;
     public static final int higherConveyorMotorPortNum = 7;
-    public static final int ballLaunchingMotorPortNum = 5;
-    public static final int rightArmMotorPortNum = 6;
-    public static final int leftArmMotorPortNum = 8;
+    public static final int ballLaunchingMotorPortNum = 10;
+    public static final int rightArmMotorPortNum = 11;
+    public static final int leftArmMotorPortNum = 12;
 
     //Other Ports
     public static final int ultrasonicPortNum = 0;
@@ -31,11 +31,11 @@ public final class Constants {
     //random things
     public static final double speedReductionConst = 0.40;
     public static final Boolean driveRelativeToField = true;
-    public static final double launchSpeed = 0.8;
+    public static final double launchSpeed = 0.675;
     public static final double lowerConveyorSpeed = 0.4;
     public static final double higherConveyorSpeed = 0.6;
-    public static final double minShootDistance = 100;
-    public static final double maxShootDistance = 124;
+    public static final double minShootDistance = 103+10;
+    public static final double maxShootDistance = 103-10;
     public static final double extendSpeed = 0.5;
     public static final double retractSpeed = 0.5;
 

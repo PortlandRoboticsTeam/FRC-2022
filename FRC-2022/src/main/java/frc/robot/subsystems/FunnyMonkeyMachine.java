@@ -4,8 +4,9 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import static frc.robot.Constants.*;
 
 import edu.wpi.first.wpilibj.Compressor;
@@ -15,8 +16,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class FunnyMonkeyMachine extends SubsystemBase {
-  private VictorSPX rightArmMotor = new VictorSPX(rightArmMotorPortNum);
-  private VictorSPX leftArmMotor = new VictorSPX(leftArmMotorPortNum);
+  private CANSparkMax rightArmMotor = new CANSparkMax(rightArmMotorPortNum, MotorType.kBrushless);
+  private CANSparkMax leftArmMotor = new CANSparkMax(leftArmMotorPortNum, MotorType.kBrushless);
   private Compressor compressor = new Compressor(pcmPortNum, PneumaticsModuleType.CTREPCM);
   private DoubleSolenoid doubleSolenoid = new DoubleSolenoid(pcmPortNum, PneumaticsModuleType.CTREPCM, 0, 1);
   
@@ -39,13 +40,13 @@ public class FunnyMonkeyMachine extends SubsystemBase {
   }
 
   public void rotateArmMotors(double speed){
-    rightArmMotor.set(VictorSPXControlMode.PercentOutput, speed);
-    leftArmMotor.set(VictorSPXControlMode.PercentOutput, -speed);
+    rightArmMotor.set(speed);
+    leftArmMotor.set(-speed);
   }
 
   public void stopMotors(){
-    rightArmMotor.set(VictorSPXControlMode.PercentOutput, 0);
-    leftArmMotor.set(VictorSPXControlMode.PercentOutput, 0);
+    rightArmMotor.set(0);
+    leftArmMotor.set(0);
   }
 
   public boolean getCompressorState(){
