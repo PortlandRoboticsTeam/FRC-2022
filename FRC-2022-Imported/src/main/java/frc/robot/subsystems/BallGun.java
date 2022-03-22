@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import static frc.robot.Constants.*;
 
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -15,7 +18,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 public class BallGun extends SubsystemBase {
     VictorSPX lowerConveyorMotor = new VictorSPX(lowerConveyorMotorPortNum);
     VictorSPX higherConveyorMotor = new VictorSPX(higherConveyorMotorPortNum);
-    VictorSPX ballLaunchingMotor = new VictorSPX(ballLaunchingMotorPortNum);
+    CANSparkMax ballLaunchingMotor = new CANSparkMax(ballLaunchingMotorPortNum, MotorType.kBrushless);
     AnalogInput distanceSensor = new AnalogInput(ultrasonicPortNum);
 
     /** Creates a new ExampleSubsystem. */   
@@ -34,11 +37,11 @@ public class BallGun extends SubsystemBase {
     }
 
     public void spinBallLauncher(double speed){
-        ballLaunchingMotor.set(VictorSPXControlMode.PercentOutput, speed);
+        ballLaunchingMotor.set(speed);
     }
 
     public void stopMotors(){
-        ballLaunchingMotor.set(VictorSPXControlMode.PercentOutput,0);
+        ballLaunchingMotor.set(0);
         lowerConveyorMotor.set(VictorSPXControlMode.PercentOutput,0);
         higherConveyorMotor.set(VictorSPXControlMode.PercentOutput,0);
     }
