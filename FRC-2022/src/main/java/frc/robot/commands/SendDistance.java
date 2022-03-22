@@ -10,9 +10,10 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import static frc.robot.Constants.*;
 
 /** An example command that uses an example subsystem. */
-public class GetDistance extends CommandBase {
+public class SendDistance extends CommandBase {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final BallGun ballGun;
     double distance;
@@ -22,7 +23,7 @@ public class GetDistance extends CommandBase {
      *
      * @param subsystem The subsystem used by this command.
      */
-    public GetDistance(BallGun ballGun) {
+    public SendDistance(BallGun ballGun) {
       this.ballGun = ballGun;
       // Use addRequirements() here to declare subsystem dependencies.
       addRequirements(ballGun);
@@ -48,14 +49,14 @@ public class GetDistance extends CommandBase {
 
     private boolean getIfInRange() {
       distance = ballGun.getDistance();
-      return distance>=24 && distance<=36;
+      return distance>=minShootDistance && distance<=maxShootDistance;
     }
 
     private double getDistanceDifference(){
       distance = ballGun.getDistance();
-      if(distance<24) return distance-24;
-      else if(distance>36) return distance-36;
-      else if(distance<=36 && distance>=24) return 0;
+      if(distance<minShootDistance) return distance-minShootDistance;
+      else if(distance>maxShootDistance) return distance-maxShootDistance;
+      else if(distance<=maxShootDistance && distance>=minShootDistance) return 0;
       else return 0;
     }
 

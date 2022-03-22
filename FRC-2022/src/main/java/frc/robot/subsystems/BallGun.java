@@ -29,7 +29,7 @@ public class BallGun extends SubsystemBase {
         return distance;
     }
     public void spinLowerConveyor(double speed){
-        lowerConveyorMotor.set(VictorSPXControlMode.PercentOutput, speed);
+        lowerConveyorMotor.set(VictorSPXControlMode.PercentOutput, -speed);
     }
 
     public void spingHigherConveyor(double speed){
