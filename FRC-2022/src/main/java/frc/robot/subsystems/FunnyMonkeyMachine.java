@@ -5,7 +5,9 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMaxLimitSwitch;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkMaxLimitSwitch.Type;
 
 import static frc.robot.Constants.*;
 
@@ -56,7 +58,25 @@ public class FunnyMonkeyMachine extends SubsystemBase {
   public Value getSolenoidState(){
     return doubleSolenoid.get();
   }
-
+  
+  /**
+   * 
+   * @param motor 1 = left motor, 2 = right motor
+   * @param direction 1 = forward limit switch, 2 = reverse limit switch
+   * @return 
+   */
+  public SparkMaxLimitSwitch getLimitSwitch(int motor, int direction){
+    if(motor == 1){
+      if(direction == 1) return leftArmMotor.getForwardLimitSwitch(Type.kNormallyOpen);
+      else if(direction == 2) return leftArmMotor.getReverseLimitSwitch(Type.kNormallyOpen);
+    }
+    else if(motor == 2){
+      if(direction == 1) return rightArmMotor.getForwardLimitSwitch(Type.kNormallyOpen);
+      else if(direction == 2) return rightArmMotor.getReverseLimitSwitch(Type.kNormallyOpen);
+    }
+    return null;
+  }
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
