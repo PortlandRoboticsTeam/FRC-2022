@@ -10,8 +10,10 @@ import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static frc.robot.Constants.*;
@@ -47,7 +49,6 @@ public class RobotContainer {
   private final CloseArms closeArms = new CloseArms(funnyMonkeyMachine);
   private final OpenArms openArms = new OpenArms(funnyMonkeyMachine);
   private final SendPneumatics sendPneumatics = new SendPneumatics(funnyMonkeyMachine);
-  private final PneumaticsOff pneumaticsOff = new PneumaticsOff(funnyMonkeyMachine);
   
   private final Joystick m_controller = new Joystick(m_controllerPortNum);
 
@@ -55,6 +56,10 @@ public class RobotContainer {
   public RobotContainer() {
     CameraServer.startAutomaticCapture("Intake", 0);
     CameraServer.startAutomaticCapture("Launcher", 1);
+
+    Shuffleboard.getTab("Arms").addNumber("rigth arm pos", ()->funnyMonkeyMachine.getRightArmPosition());
+    Shuffleboard.getTab("Arms").addNumber("left arm pos", ()->funnyMonkeyMachine.getLeftArmPosition());
+
 
     // Set up the default command for the drivetrain.
     // The controls are for field-oriented driving:
@@ -104,7 +109,7 @@ public class RobotContainer {
     m_8.whileHeld(retractArms);
     m_9.whenPressed(openArms);
     m_10.whenPressed(closeArms);
-    m_11.whenPressed(pneumaticsOff);
+    m_11.whenPressed(new SequentialCommandGroup(new OpenArms(funnyMonkeyMachine), new ExtendArms(funnyMonkeyMachine), new CloseArms(funnyMonkeyMachine), new RetractArms(funnyMonkeyMachine)));
   }
 
   /**

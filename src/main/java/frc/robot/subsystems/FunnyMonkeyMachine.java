@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxLimitSwitch;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxLimitSwitch.Type;
@@ -20,13 +21,26 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class FunnyMonkeyMachine extends SubsystemBase {
   private CANSparkMax rightArmMotor = new CANSparkMax(rightArmMotorPortNum, MotorType.kBrushless);
   private CANSparkMax leftArmMotor = new CANSparkMax(leftArmMotorPortNum, MotorType.kBrushless);
-  private Compressor compressor = new Compressor(pcmPortNum, PneumaticsModuleType.CTREPCM);
-  private DoubleSolenoid doubleSolenoid = new DoubleSolenoid(pcmPortNum, PneumaticsModuleType.CTREPCM, 0, 1);
+  private Compressor compressor = new Compressor(pcmPortNum, PneumaticsModuleType.REVPH);
+  private DoubleSolenoid doubleSolenoid = new DoubleSolenoid(pcmPortNum, PneumaticsModuleType.REVPH, 0, 1);
+  private RelativeEncoder rightArmEncoder = rightArmMotor.getEncoder();
+  private RelativeEncoder leftArmEncoder = leftArmMotor.getEncoder();
   
   /** Creates a new ExampleSubsystem. */
   public FunnyMonkeyMachine() {
     compressor.enableDigital();
+    rightArmMotor.setInverted(true);
     doubleSolenoid.set(Value.kReverse);
+    rightArmEncoder.setPosition(0.0);
+    leftArmEncoder.setPosition(0.0);
+  }
+
+  public double getRightArmPosition(){
+    return rightArmEncoder.getPosition();
+  }
+
+  public double getLeftArmPosition(){
+    return leftArmEncoder.getPosition();
   }
 
   public void solenoidFoward(){
@@ -43,7 +57,15 @@ public class FunnyMonkeyMachine extends SubsystemBase {
 
   public void rotateArmMotors(double speed){
     rightArmMotor.set(speed);
-    leftArmMotor.set(-speed);
+    leftArmMotor.set(speed);
+  }
+
+  public void setRightArmMotorSpeed(double speed){
+    rightArmMotor.set(speed);
+  }
+
+  public void setLeftArmMotorSpeed(double speed){
+    leftArmMotor.set(speed);
   }
 
   public void stopMotors(){

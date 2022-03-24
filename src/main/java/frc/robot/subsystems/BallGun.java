@@ -16,7 +16,7 @@ import static frc.robot.Constants.*;
 import edu.wpi.first.wpilibj.AnalogInput;
 
 public class BallGun extends SubsystemBase {
-    VictorSPX lowerConveyorMotor = new VictorSPX(lowerConveyorMotorPortNum);
+    CANSparkMax lowerConveyorMotor = new CANSparkMax(lowerConveyorMotorPortNum, MotorType.kBrushless);
     VictorSPX higherConveyorMotor = new VictorSPX(higherConveyorMotorPortNum);
     CANSparkMax ballLaunchingMotor = new CANSparkMax(ballLaunchingMotorPortNum, MotorType.kBrushless);
     AnalogInput distanceSensor = new AnalogInput(ultrasonicPortNum);
@@ -29,7 +29,7 @@ public class BallGun extends SubsystemBase {
         return distance;
     }
     public void spinLowerConveyor(double speed){
-        lowerConveyorMotor.set(VictorSPXControlMode.PercentOutput, -speed);
+        lowerConveyorMotor.set(-speed);
     }
 
     public void spingHigherConveyor(double speed){
@@ -42,7 +42,7 @@ public class BallGun extends SubsystemBase {
 
     public void stopMotors(){
         ballLaunchingMotor.set(0);
-        lowerConveyorMotor.set(VictorSPXControlMode.PercentOutput,0);
+        lowerConveyorMotor.set(0);
         higherConveyorMotor.set(VictorSPXControlMode.PercentOutput,0);
     }
 
