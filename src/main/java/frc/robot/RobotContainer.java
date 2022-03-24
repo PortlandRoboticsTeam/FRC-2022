@@ -57,8 +57,9 @@ public class RobotContainer {
     CameraServer.startAutomaticCapture("Intake", 0);
     CameraServer.startAutomaticCapture("Launcher", 1);
 
-    Shuffleboard.getTab("Arms").addNumber("rigth arm pos", ()->funnyMonkeyMachine.getRightArmPosition());
-    Shuffleboard.getTab("Arms").addNumber("left arm pos", ()->funnyMonkeyMachine.getLeftArmPosition());
+    //Uncomment if using neos and want to throw their position to shuffleboard
+    // Shuffleboard.getTab("Arms").addNumber("rigth arm pos", ()->funnyMonkeyMachine.getRightArmPosition());
+    // Shuffleboard.getTab("Arms").addNumber("left arm pos", ()->funnyMonkeyMachine.getLeftArmPosition());
 
 
     // Set up the default command for the drivetrain.
@@ -109,7 +110,8 @@ public class RobotContainer {
     m_8.whileHeld(retractArms);
     m_9.whenPressed(openArms);
     m_10.whenPressed(closeArms);
-    m_11.whenPressed(new SequentialCommandGroup(new OpenArms(funnyMonkeyMachine), new ExtendArms(funnyMonkeyMachine), new CloseArms(funnyMonkeyMachine), new RetractArms(funnyMonkeyMachine)));
+    //Don't run this command without neos or encoders, shit will break.
+    //m_11.whenPressed(new SequentialCommandGroup(new OpenArms(funnyMonkeyMachine), new ExtendArms(funnyMonkeyMachine), new CloseArms(funnyMonkeyMachine), new RetractArms(funnyMonkeyMachine)));
   }
 
   /**

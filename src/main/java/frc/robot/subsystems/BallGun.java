@@ -22,7 +22,10 @@ public class BallGun extends SubsystemBase {
     AnalogInput distanceSensor = new AnalogInput(ultrasonicPortNum);
 
     /** Creates a new ExampleSubsystem. */   
-    public BallGun(){}
+    public BallGun(){
+        lowerConveyorMotor.setSecondaryCurrentLimit(100*.8);
+        ballLaunchingMotor.setSecondaryCurrentLimit(100*.8);
+    }
 
     public double getDistance(){
         double distance = 39.0 * distanceSensor.getVoltage()/1.024;

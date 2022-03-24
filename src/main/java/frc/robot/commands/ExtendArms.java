@@ -27,8 +27,11 @@ public class ExtendArms extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      if(funnyMonkeyMachine.getLeftArmPosition()<maxArmLength) funnyMonkeyMachine.setLeftArmMotorSpeed(extendSpeed);
-      if(funnyMonkeyMachine.getRightArmPosition()<maxArmLength) funnyMonkeyMachine.setRightArmMotorSpeed(extendSpeed);
+        //Uncomment tabbed code if we use neos for the arms. the if statements are used to prevent backwindings.
+        // if(funnyMonkeyMachine.getLeftArmPosition()<maxArmLength) 
+      funnyMonkeyMachine.setLeftArmMotorSpeed(extendSpeed);
+        // if(funnyMonkeyMachine.getRightArmPosition()<maxArmLength) 
+      funnyMonkeyMachine.setRightArmMotorSpeed(extendSpeed);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -44,7 +47,9 @@ public class ExtendArms extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-      if(funnyMonkeyMachine.getLeftArmPosition()>=maxArmLength && funnyMonkeyMachine.getRightArmPosition()>=maxArmLength) return true;
-      else return false;
+        //Uncomment tabbed code if using neos and want to prevent backwinding.
+        // if(funnyMonkeyMachine.getLeftArmPosition()>=maxArmLength && funnyMonkeyMachine.getRightArmPosition()>=maxArmLength) return true;
+        // else
+      return false;
     }
 }

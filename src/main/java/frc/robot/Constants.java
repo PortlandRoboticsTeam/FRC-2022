@@ -31,13 +31,13 @@ public final class Constants {
     //random things
     public static final double speedReductionConst = 0.40;
     public static final Boolean driveRelativeToField = true;
-    public static final double launchSpeed = 0.675;
+    public static final double launchSpeed = 0.9;
     public static final double lowerConveyorSpeed = 0.8;
     public static final double higherConveyorSpeed = 0.6;
     public static final double minShootDistance = 103+10;
     public static final double maxShootDistance = 103-10;
     public static final double extendSpeed = 1;
-    public static final double retractSpeed = 1;
+    public static final double retractSpeed = .9;
     public static final double maxArmLength = 430;
 
 

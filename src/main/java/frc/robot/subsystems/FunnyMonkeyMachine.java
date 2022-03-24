@@ -19,29 +19,35 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class FunnyMonkeyMachine extends SubsystemBase {
-  private CANSparkMax rightArmMotor = new CANSparkMax(rightArmMotorPortNum, MotorType.kBrushless);
-  private CANSparkMax leftArmMotor = new CANSparkMax(leftArmMotorPortNum, MotorType.kBrushless);
+  private CANSparkMax rightArmMotor = new CANSparkMax(rightArmMotorPortNum, MotorType.kBrushed);
+  private CANSparkMax leftArmMotor = new CANSparkMax(leftArmMotorPortNum, MotorType.kBrushed);
   private Compressor compressor = new Compressor(pcmPortNum, PneumaticsModuleType.REVPH);
   private DoubleSolenoid doubleSolenoid = new DoubleSolenoid(pcmPortNum, PneumaticsModuleType.REVPH, 0, 1);
-  private RelativeEncoder rightArmEncoder = rightArmMotor.getEncoder();
-  private RelativeEncoder leftArmEncoder = leftArmMotor.getEncoder();
+    //Uncomment tabbed code to initialize encoders, only works with neo motors
+    // private RelativeEncoder rightArmEncoder = rightArmMotor.getEncoder();
+    // private RelativeEncoder leftArmEncoder = leftArmMotor.getEncoder();
   
   /** Creates a new ExampleSubsystem. */
   public FunnyMonkeyMachine() {
     compressor.enableDigital();
     rightArmMotor.setInverted(true);
     doubleSolenoid.set(Value.kReverse);
-    rightArmEncoder.setPosition(0.0);
-    leftArmEncoder.setPosition(0.0);
+      //Uncomment tabbed code if we use neos, this sets their staring position to 0 (starting posititon should be with arms retracted)
+      // rightArmEncoder.setPosition(0.0);
+      // leftArmEncoder.setPosition(0.0);
+    leftArmMotor.setSecondaryCurrentLimit(130*.8);
+    rightArmMotor.setSecondaryCurrentLimit(130*.8);
   }
 
-  public double getRightArmPosition(){
-    return rightArmEncoder.getPosition();
-  }
+      //Uncomment tabbed code if we use neos, this will allow us to use their encoders to stop backwinding
 
-  public double getLeftArmPosition(){
-    return leftArmEncoder.getPosition();
-  }
+      // public double getRightArmPosition(){
+      //   return rightArmEncoder.getPosition();
+      // }
+
+      // public double getLeftArmPosition(){
+      //   return leftArmEncoder.getPosition();
+      // }
 
   public void solenoidFoward(){
     doubleSolenoid.set(Value.kForward);

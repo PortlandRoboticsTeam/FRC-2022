@@ -27,8 +27,11 @@ public class RetractArms extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      if(funnyMonkeyMachine.getLeftArmPosition()>5) funnyMonkeyMachine.setLeftArmMotorSpeed(-retractSpeed);
-      if(funnyMonkeyMachine.getRightArmPosition()>5) funnyMonkeyMachine.setRightArmMotorSpeed(-retractSpeed);
+        //Uncomment tabbed code if we use neos for the arms. the if statements are used to prevent backwindings.
+        // if(funnyMonkeyMachine.getLeftArmPosition()>5) 
+      funnyMonkeyMachine.setLeftArmMotorSpeed(-retractSpeed);
+        // if(funnyMonkeyMachine.getRightArmPosition()>5) 
+      funnyMonkeyMachine.setRightArmMotorSpeed(-retractSpeed);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -44,7 +47,9 @@ public class RetractArms extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-      if(funnyMonkeyMachine.getLeftArmPosition()<=0 && funnyMonkeyMachine.getRightArmPosition()<=0) return true;
-      else return false;
+        //Uncomment tabbed code if using neos and want to prevent backwinding.
+        // if(funnyMonkeyMachine.getLeftArmPosition()<=0 && funnyMonkeyMachine.getRightArmPosition()<=0) return true;
+        // else 
+      return false;
     }
 }
